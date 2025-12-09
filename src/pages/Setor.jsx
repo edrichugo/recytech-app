@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Setor() {
   const [filePreview, setFilePreview] = useState(null);
-  // State untuk data form
+  
+  // State data form
   const [formData, setFormData] = useState({
     jenis: 'Smartphone',
-    berat: '',
+    berat: '', // Ini nanti akan berisi angka (gram)
   });
+  
+  // State untuk Modal Sukses
+  const [showModal, setShowModal] = useState(false);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -20,18 +25,24 @@ export default function Setor() {
   };
 
   const handleSubmit = () => {
-    console.log("Data dikirim:", formData, filePreview);
-    alert("Setoran berhasil dikonfirmasi (Simulasi)");
+    // Validasi sederhana
+    if (!filePreview) return alert("Mohon upload foto barang dulu!");
+    if (!formData.berat) return alert("Mohon isi estimasi berat barang!");
+    
+    // kalo udah oke, popup
+    setShowModal(true);
   };
 
   return (
-    <div className="fade-in max-w-2xl mx-auto">
+    <div className="fade-in max-w-2xl mx-auto relative">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">Setor E-Waste ♻</h2>
         <p className="text-gray-500 dark:text-gray-400">Isi formulir di bawah ini sebelum datang ke Dropbox.</p>
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 md:p-8 space-y-6 transition-colors">
+        
+        {/* 1. UPLOAD FOTO */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">1. Upload Foto Barang</label>
           <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl h-52 flex flex-col justify-center items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-indigo-400 transition relative overflow-hidden group">
@@ -48,35 +59,42 @@ export default function Setor() {
         </div>
 
         <div className="grid grid-cols-2 gap-5">
+           {/* 2. JENIS BARANG */}
            <div>
               <label className="block text-sm font-semibold mb-2 dark:text-gray-300">2. Jenis Barang</label>
               <div className="relative">
                 <select 
-                    name="jenis"
-                    value={formData.jenis}
-                    onChange={handleInputChange}
+                    name="jenis" 
+                    value={formData.jenis} 
+                    onChange={handleInputChange} 
                     className="w-full border-gray-300 dark:border-gray-600 border rounded-xl p-3 bg-white dark:bg-gray-700 dark:text-white appearance-none focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-colors"
                 >
                     <option value="Smartphone">📱 Smartphone</option>
                     <option value="Laptop">💻 Laptop / PC</option>
                     <option value="Baterai">🔋 Baterai</option>
                     <option value="Kabel">🔌 Kabel / Charger</option>
+                    <option value="Lainnya">📺 Lainnya</option>
                 </select>
                 <span className="absolute right-4 top-3.5 text-gray-400 pointer-events-none">▼</span>
               </div>
            </div>
+
+           {/* 3. ESTIMASI BERAT (INPUT GRAM) */}
            <div>
               <label className="block text-sm font-semibold mb-2 dark:text-gray-300">3. Estimasi Berat</label>
               <div className="relative">
                 <input 
                     type="number" 
-                    name="berat"
-                    value={formData.berat}
-                    onChange={handleInputChange}
-                    className="w-full border-gray-300 dark:border-gray-600 border rounded-xl p-3 bg-white dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-colors" 
-                    placeholder="0" 
+                    name="berat" 
+                    value={formData.berat} 
+                    onChange={handleInputChange} 
+                    className="w-full border-gray-300 dark:border-gray-600 border rounded-xl p-3 pr-16 bg-white dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-colors" 
+                    placeholder="Contoh: 250" 
+                    min="1"
                 />
-                <span className="absolute right-4 top-3 text-gray-500 dark:text-gray-400 font-medium text-sm">Gram</span>
+                <span className="absolute right-4 top-3 text-gray-500 dark:text-gray-400 font-medium text-sm pointer-events-none">
+                    Gram
+                </span>
               </div>
            </div>
         </div>
@@ -85,6 +103,29 @@ export default function Setor() {
           Konfirmasi Setoran
         </button>
       </div>
+
+      {/* POPUP */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm fade-in">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl transform transition-all scale-100">
+            <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl animate-bounce">
+              🎉
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Berhasil!</h3>
+            <p className="text-gray-500 dark:text-gray-400 mb-8">
+              Data barang seberat <b>{formData.berat} gram</b> sudah dicatat. Silakan bawa ke Dropbox terdekat dan scan QR di sana.
+            </p>
+            <div className="space-y-3">
+               <Link to="/dashboard" className="block w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition">
+                 Kembali ke Dashboard
+               </Link>
+               <button onClick={() => setShowModal(false)} className="block w-full text-gray-500 font-semibold py-2 hover:text-gray-700 dark:hover:text-gray-300">
+                 Tutup
+               </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
