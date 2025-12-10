@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://USERNAME_GITHUB.github.io/NAMA_REPO",
+  "homepage": "https://edrichugo.github.io/recytech-app",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
