@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 
-import Dashboard from './pages/dashboard';
-import Setor from './pages/setor';
-import Tukar from './pages/tukar';
-import Profile from './pages/profile';
+import Dashboard from './pages/Dashboard';
+import Setor from './pages/Setor';
+import Tukar from './pages/Tukar';
+import Profile from './pages/Profile';
 
 export default function App() {
   const [theme, setTheme] = useState(() => {

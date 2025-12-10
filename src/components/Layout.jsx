@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import logoRecytech from '../assets/logo.png'; 
+
 const Layout = ({ children }) => {
   const location = useLocation();
   const currentPath = location.pathname;
 
   const menuItems = [
-    { path: '', label: 'Dashboard', icon: '🏠' },
+    { path: '/dashboard', label: 'Dashboard', icon: '🏠' },
     { path: '/setor', label: 'Setor E-Waste', icon: '♻' },
     { path: '/tukar', label: 'Tukar Poin', icon: '🎁' },
     { path: '/profile', label: 'Profil Saya', icon: '👤' },
@@ -14,10 +16,13 @@ const Layout = ({ children }) => {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-      {/* === DESKTOP SIDEBAR === */}
       <aside className="hidden md:flex flex-col w-64 bg-white dark:bg-gray-800 border-r dark:border-gray-700 h-screen fixed left-0 top-0 z-20 transition-colors">
-        <div className="p-6 border-b dark:border-gray-700 flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-600 rounded-lg shadow-sm"></div>
+        <div className="p-6 border-b dark:border-gray-700 flex items-center gap-3">
+          <img 
+            src={logoRecytech} 
+            alt="RecyTech Logo" 
+            className="w-10 h-10 object-contain filter drop-shadow-sm" 
+          />
           <h1 className="text-xl font-bold tracking-tight text-indigo-900 dark:text-white">RecyTech</h1>
         </div>
         
@@ -52,7 +57,11 @@ const Layout = ({ children }) => {
       {/* === MOBILE HEADER === */}
       <header className="md:hidden bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-sm p-4 sticky top-0 z-30 flex justify-between items-center transition-colors">
         <div className="flex items-center gap-2">
-           <div className="w-6 h-6 bg-gradient-to-br from-green-400 to-blue-600 rounded-md"></div>
+           <img 
+             src={logoRecytech} 
+             alt="Logo" 
+             className="w-8 h-8 object-contain" 
+           />
            <h1 className="font-bold text-lg text-indigo-900 dark:text-white">RecyTech</h1>
         </div>
         <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm">120 XP</span>
